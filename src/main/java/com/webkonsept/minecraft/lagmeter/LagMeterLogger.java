@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -134,6 +137,26 @@ public class LagMeterLogger {
 			log.flush();
 		}
 	}
+	
+	public void logMysql(float aTPS, double memFree, double memMax,
+			int percentageFree) {
+		
+		
+		String pilote = "com.mysql.jdbc.Driver";
+		try {
+			Class.forName(pilote);
+			Connection connexion = DriverManager.getConnection("jdbc:mysql://"+plugin.Host+"/"+plugin.DatabaseName,plugin.User,plugin.Password);
+			Statement instruction = connexion.createStatement();
+			instruction.executeUpdate("insert into "+plugin.TableName+" (timestamp,TPS,memFree,Players) VALUES (NOW(),'"+aTPS+"','"+(int)memFree+"','"+plugin.getServer().getOnlinePlayers().length+ "')");
+			connexion.close();
+			
+		} catch (Exception e) {
+			plugin.info("Erreur SQL"+e);
+		}
+		
+		
+	}
+	
 	public boolean logMemory(){
 		return logMemory;
 	}
@@ -183,4 +206,5 @@ public class LagMeterLogger {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
 		return sdf.format(calendar.getTime());
 	}
+
 }

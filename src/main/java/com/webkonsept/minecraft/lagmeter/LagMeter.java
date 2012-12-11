@@ -52,6 +52,12 @@ public class LagMeter extends JavaPlugin {
 			logEntities, logTotalEntitiesOnly, newBlockPerLog, displayEntitiesOnLoad, newLineForLogStats;
 
 	protected String highLagCommand, lowMemCommand;
+	protected boolean MysqlEnabled;
+	protected String Host;
+	protected String DatabaseName;
+	protected String TableName;
+	protected String User;
+	protected String Password;
 	
 	//Accessor
 	public static LagMeter p;

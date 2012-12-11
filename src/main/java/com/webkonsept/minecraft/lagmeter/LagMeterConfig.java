@@ -79,6 +79,13 @@ public class LagMeterConfig extends LagMeter{
 				plugin.memoryNotificationThreshold			= configuration.getInt		("Notifications.Memory.Threshold",		25);
 				plugin.memNotifyInterval					= configuration.getInt		("Notifications.Memory.CheckInterval",	10);
 				plugin.lowMemCommand						= configuration.getString	("Notifications.Memory.ConsoleCommand",	"/mem");
+				plugin.MysqlEnabled							= configuration.getBoolean	("Mysql.Enabled",						false);
+				plugin.Host									= configuration.getString	("Mysql.Host",							"");
+				plugin.DatabaseName							= configuration.getString	("Mysql.DatabaseName",					"");
+				plugin.User									= configuration.getString	("Mysql.User",							"");
+				plugin.TableName							= configuration.getString	("Mysql.TableName",						"");
+				plugin.Password								= configuration.getString	("Mysql.Password",						"");
+				
 			}catch (FileNotFoundException ex){
 				ex.printStackTrace();
 			}catch (IOException ex){

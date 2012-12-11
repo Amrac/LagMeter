@@ -90,3 +90,10 @@ Notifications:
         #Specify a command to use when the plugin notices that the free memory is low. Must be usable from console.
         #Default: /mem
         ConsoleCommand: /mem
+Mysql:
+    Enabled: false
+    Host:
+    DatabaseName:
+    User:
+    TableName:
+    Password:

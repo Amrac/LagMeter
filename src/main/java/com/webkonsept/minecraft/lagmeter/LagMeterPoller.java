@@ -35,6 +35,8 @@ public class LagMeterPoller implements Runnable{
 			else
 				aTPS = plugin.getTPS();
 			plugin.logger.log("TPS: "+aTPS+newLine+"Memory free: "+plugin.memFree+"/"+plugin.memMax+" ("+(int)plugin.percentageFree+"%)"+players);
+			if(plugin.MysqlEnabled)
+				plugin.logger.logMysql(aTPS,plugin.memFree,plugin.memMax,(int)plugin.percentageFree);
 		}
 	}
 	public void setLogInterval(int interval){
