@@ -138,16 +138,18 @@ public class LagMeterLogger {
 		}
 	}
 	
-	public void logMysql(float aTPS, double memFree, double memMax,
-			int percentageFree) {
-		
-		
+	public void logMysql(float aTPS, double memFree, double memMax,int percentageFree) {
+		int totalEntities = 0;
+		for(World world: Bukkit.getServer().getWorlds()){
+			totalEntities += world.getEntities().size();
+		}
+	
 		String pilote = "com.mysql.jdbc.Driver";
 		try {
 			Class.forName(pilote);
 			Connection connexion = DriverManager.getConnection("jdbc:mysql://"+plugin.Host+"/"+plugin.DatabaseName,plugin.User,plugin.Password);
 			Statement instruction = connexion.createStatement();
-			instruction.executeUpdate("insert into "+plugin.TableName+" (timestamp,TPS,memFree,Players) VALUES (NOW(),'"+aTPS+"','"+(int)memFree+"','"+plugin.getServer().getOnlinePlayers().length+ "')");
+			instruction.executeUpdate("insert into "+plugin.TableName+" (timestamp,TPS,memFree,Players,Entities) VALUES (NOW(),'"+aTPS+"','"+(int)memFree+"','"+plugin.getServer().getOnlinePlayers().length+ "','"+totalEntities+"')");
 			connexion.close();
 			
 		} catch (Exception e) {
