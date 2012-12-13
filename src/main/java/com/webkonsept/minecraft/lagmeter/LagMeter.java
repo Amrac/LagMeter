@@ -58,6 +58,21 @@ public class LagMeter extends JavaPlugin {
 	protected String TableName;
 	protected String User;
 	protected String Password;
+	public boolean fluids;
+	public boolean eventBlockFire;
+	public boolean eventBlockBurn;
+	public boolean eventBlockPhysics;
+	public boolean eventLeavesDecay;
+	public boolean eventBlockForm;
+	public boolean eventBlockSpread;
+	public boolean eventEntityExplode;
+	public boolean eventExplosionPrime;
+	public boolean eventCreatureSpawn;
+	public boolean removeEntitiesOnChunkLoad;
+	public boolean removeEntitiesAnimal;
+	public boolean removeEntitiesNPC;
+	public boolean removeEntitiesOnPlayerJoin;
+	
 	
 	//Accessor
 	public static LagMeter p;
@@ -71,7 +86,11 @@ public class LagMeter extends JavaPlugin {
 		vault = checkVault();
 		logger = new LagMeterLogger(this);
 		poller = new LagMeterPoller(this);
-
+		
+		//Modif
+		getServer().getPluginManager().registerEvents(new LagMeterListeners(this), this);
+		
+		
 		if(!logsFolder.exists() && useLogsFolder && enableLogging){
 			info("Logs folder not found. Creating one for you.");
 			logsFolder.mkdir();
@@ -127,6 +146,7 @@ public class LagMeter extends JavaPlugin {
 			}
 			info("Total entities: "+total);
 		}
+		
 	}
 	@Override
 	public void onDisable(){
@@ -184,6 +204,9 @@ public class LagMeter extends JavaPlugin {
 		return ticksPerSecond;
 	}
 	protected void handleBaseCommand(CommandSender sender, String[] args){
+		
+		//sendMessage(sender, 1, "Command:"+args[0]+" arg1:" + args[1]);
+		
 		if(args[0].equalsIgnoreCase("reload")){
 			if(permit(sender, "lagmeter.command.lagmeter.reload") || permit(sender, "lagmeter.reload")){
 				conf.loadConfig();
@@ -222,7 +245,88 @@ public class LagMeter extends JavaPlugin {
 					sendMessage(sender, 1, "You don't have permission for any of the commands (besides this one)!");
 			}else
 				sendMessage(sender, 1, "Sorry, but you don't have access to the help command.");
-		}else{
+		}if(args[0].equalsIgnoreCase("lessLag")){
+			
+			if(args[1].equalsIgnoreCase("all")){
+				fluids=true;
+				eventBlockFire=true;
+				eventBlockBurn=true;
+				eventBlockPhysics=true;
+				eventLeavesDecay=true;
+				eventBlockForm=true;
+				eventBlockSpread=true;
+				eventEntityExplode=true;
+				eventExplosionPrime=true;
+				eventCreatureSpawn=true;
+				removeEntitiesOnChunkLoad=false;
+				removeEntitiesOnPlayerJoin=false;
+				removeEntitiesAnimal=false;
+				removeEntitiesNPC=false;
+				sendMessage(sender, 1, "Tout est actif");
+			}
+			else if(args[1].equalsIgnoreCase("off")){
+				fluids=false;
+				eventBlockFire=false;
+				eventBlockBurn=false;
+				eventBlockPhysics=false;
+				eventLeavesDecay=false;
+				eventBlockForm=false;
+				eventBlockSpread=false;
+				eventEntityExplode=false;
+				eventExplosionPrime=false;
+				eventCreatureSpawn=false;
+				removeEntitiesOnChunkLoad=false;
+				removeEntitiesOnPlayerJoin=false;
+				removeEntitiesAnimal=false;
+				removeEntitiesNPC=false;
+				sendMessage(sender, 1, "Tout est eteint");
+			}
+			else if(args[1].equalsIgnoreCase("fluids")){
+				fluids=true;				
+			}
+			else if(args[1].equalsIgnoreCase("eventBlockFire")){
+				eventBlockFire=true;				
+			}
+			else if(args[1].equalsIgnoreCase("eventBlockBurn")){
+				eventBlockBurn=true;				
+			}
+			else if(args[1].equalsIgnoreCase("eventBlockPhysics")){
+				eventBlockPhysics=true;				
+			}
+			else if(args[1].equalsIgnoreCase("eventLeavesDecay")){
+				eventLeavesDecay=true;				
+			}
+			else if(args[1].equalsIgnoreCase("eventBlockForm")){
+				eventBlockForm=true;				
+			}
+			else if(args[1].equalsIgnoreCase("eventBlockSpread")){
+				eventBlockSpread=true;				
+			}
+			else if(args[1].equalsIgnoreCase("eventEntityExplode")){
+				eventEntityExplode=true;				
+			}
+			else if(args[1].equalsIgnoreCase("eventExplosionPrime")){
+				eventExplosionPrime=true;				
+			}
+			else if(args[1].equalsIgnoreCase("eventCreatureSpawn")){
+				eventCreatureSpawn=true;				
+			}
+			else if(args[1].equalsIgnoreCase("removeEntitiesOnChunkLoad")){
+				removeEntitiesOnChunkLoad=true;				
+			}
+			else if(args[1].equalsIgnoreCase("removeEntitiesOnPlayerJoin")){
+				removeEntitiesOnPlayerJoin=true;				
+			}
+			else if(args[1].equalsIgnoreCase("removeEntitiesAnimal")){
+				removeEntitiesAnimal=true;				
+			}
+			else if(args[1].equalsIgnoreCase("removeEntitiesNPC")){
+				removeEntitiesNPC=true;				
+			}
+			
+		}
+		else{
+		
 			sendMessage(sender, 1, ChatColor.GOLD+"[LagMeter] "+ChatColor.RED+"Invalid sub-command. "+ChatColor.GOLD+"Try one of these:");
 			sendMessage(sender, 0, ChatColor.GOLD+"[LagMeter] Available sub-commands: /lagmeter|lm <reload|r>|/lagmeter|lm <help|?>");
 		}

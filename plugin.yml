@@ -36,6 +36,9 @@ commands:
     lagmeter:
         description: Shows the version. Sub-commands of help and reload have obvious functions.
         usage: /<command>
+    lesslag:
+        description: Reglage du lag
+        usage: /<command>
 permissions:
     lagmeter.*:
         description: Gives full access
